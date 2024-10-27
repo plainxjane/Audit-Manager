@@ -1,2 +1,2 @@
-# Audit-Manager
+# Information Security Project
 Developed an Audit Manager for my Information Security assignment that tracks and monitors any events/actions occuring in an adjacent Library Portal application. 
