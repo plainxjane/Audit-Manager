@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<br><br>
+
+<div class="container-fluid">
+    <div class="row me-auto mb-2 mb-lg-0">
+        <h2>Log Details</h2><br><br>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <!-- Audit Logs Table -->
+            <table class="table" id="audit-table">
+                <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Classification Level</th>
+                    <th>Category</th>
+                    <th>Role</th>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Event</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if log[8] == 'Clear' %}
+                <tr class="classification-{{ log[2] }}">
+                    {% else %}
+                <tr class="status-processing">
+                    {% endif %}
+                    <td>{{log[1] }}</td>
+                    <td>{{ log[2] }}</td>
+                    <td>{{ log[4] }}</td>
+                    <td>{{ log[6] }}</td>
+                    <td>{{ log[7] }}</td>
+                    <td>{{ log[3] }}</td>
+                    <td>{{ log[5] }}</td>
+                    <td>{{ log[8] }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br><br><br>
+<div class="container fluid">
+    <div class="row-mt-4 offset-md-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" enctype='multipart/form-data'>
+                        {{ form.hidden_tag() }}
+                        {{ form.csrf_token }}
+                        <h2 class="card-title">Resolve Log</h2><br>
+                        <div class="form-check">
+                            {{ form.investigated_no_action }} {{ form.investigated_no_action.label(class="form-label")
+                            }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.escalate_to_management }} {{ form.escalate_to_management.label(class="form-label")
+                            }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.mitigation_implemented }} {{ form.mitigation_implemented.label(class="form-label")
+                            }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.follow_up_required }} {{ form.follow_up_required.label(class="form-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.issue_resolved }} {{ form.issue_resolved.label(class="form-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.submit(class="btn btn-primary", value="Resolve Log", style="float: left; margin-top:
+                            10px; margin-bottom: 20px;") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

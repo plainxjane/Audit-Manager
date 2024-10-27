@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Audit Logs
+{% endblock %}
+
+{% block content %}
+
+<br>
+<div class="row">
+    <div class="col-md-4">
+        <!-- Datepicker for filtering by date -->
+        <div class="input-group date" data-provide="datepicker">
+            <button class="btn btn-outline-secondary" type="button" id="datepickerIcon">
+                <i class="fa-solid fa-calendar-days"></i>
+            </button>
+            <input type="text" class="form-control" readonly placeholder="Select Date" id="datepickerInput">
+        </div>
+    </div>
+</div>
+
+<br>
+<div class="container col-md-12">
+    <br><h1>Unresolved Logs</h1><br>
+    <table class="table" id="audit-table">
+        <tr>
+            <th>Timestamp</th>
+            <th>Classification Level</th>
+            <th>Category</th>
+            <th>User</th>
+            <th>Action</th>
+            <th>Event</th>
+            <th>Status</th>
+        </tr>
+        {% for log in logs %}
+        {% if log[7] == 'Clear' %}
+        <tr class="classification-{{ log[2] }}">
+        {% elif log[7] == 'Processing' %}
+        <tr class="status-processing">
+        {% endif %}
+                <td>{{ log[1] }}</td>
+                <td>{{log[2] }}</td>
+                <td>{{ log[4] }}</td>
+                <td>{{ log[6] }}</td>
+                <td>{{ log[3] }}</td>
+                <td>{{ log[5] }}</td>
+                <td>
+                    {% if log[7] == 'Clear' %}
+                    <i class="fa-solid fa-circle-check fa-lg status-icon" style="color: #000000;" data-toggle="popover"
+                       data-placement="right" title="Clear" data-bs-content="This log is clear!"></i>
+                    {% else %}
+                    <i class="fa-solid fa-circle-exclamation fa-lg status-icon" style="color: #000000;"
+                       data-toggle="popover" data-placement="right" title="Processing" data-bs-content="Click to resolve!"></i>
+                    {% endif %}
+                </td>
+    </tr>
+        {% endfor %}
+    </table>
+
+    </div>
+{% endblock %}

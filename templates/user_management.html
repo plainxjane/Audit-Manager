@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}
+User Management
+{% endblock title %}
+{% block content %}
+<div class="container productTable">
+    <br>
+    <h1>Manage All Users</h1><br>
+
+    <div class="container col-md-12">
+
+    <table class="table table-striped viewTable">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>
+                    <div class="add-product-button">
+                        <a href="/createUser">
+                            <button type="button" class="btn btn-outline-dark">Create new user</button>
+                        </a>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <!-- column names -->
+                <th>Profile Picture</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Access Role</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                <td><img src="{{ row[5] }}" alt="" width="270px"></td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[6] }}</td>
+                <td>
+                    <a href="/updateUser/{{ row[0] }}" class="btn btn-warning">Update</a>
+                </td>
+                <td>
+                    <form action="/deleteUser/{{ row[0] }}" method="POST">
+                        <button type="submit" class="btn btn-danger">X</button>
+                    </form>
+                </td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

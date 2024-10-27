@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row mt-4">
+        <div class="col">
+            <!-- Audit Logs Table -->
+            <table class="table" id="audit-table">
+                <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Classification Level</th>
+                    <th>Category</th>
+                    <th>Role</th>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Event</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for log in logs %}
+                {% if log[8] == 'Clear' %}
+                <tr class="classification-{{ log[2] }}">
+                    {% elif log[8] == 'Processing' %}
+                <tr class="status-processing">
+                    {% endif %}
+                    <td>{{log[1] }}</td>
+                    <td>{{ log[2] }}</td>
+                    <td>{{ log[4] }}</td>
+                    <td>{{ log[6] }}</td>
+                    <td>{{ log[7] }}</td>
+                    <td>{{ log[3] }}</td>
+                    <td>{{ log[5] }}</td>
+                    <td>
+                        {% if log[8] == 'Clear' %}
+                        <i class="fa-solid fa-circle-check fa-lg status-icon" style="color: #000000;"
+                           data-toggle="popover"
+                           data-placement="right" title="Clear" data-bs-content="This log is clear!"></i>
+                        {% else %}
+                        {% if current_user.is_admin() %}
+                        <i class="fa-solid fa-circle-exclamation fa-lg status-icon" style="color: #000000;"
+                           data-toggle="popover" data-placement="right" title="Processing" data-bs-html="true"
+                           data-bs-content="Click <a href='/resolve/{{ log['audit_log_ID'] }}'>here</a> to resolve!"></i>
+                        {% else %}
+                        <i class="fa-solid fa-circle-exclamation fa-lg status-icon" style="color: #000000;"
+                           data-toggle="popover" data-placement="right" title="Processing" data-bs-html="true"
+                           data-bs-content="This log is still processing."></i>
+                        {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

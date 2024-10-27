@@ -1,0 +1,17 @@
+.divider:after,
+.divider:before {
+content: "";
+flex: 1;
+height: 1px;
+background: #eee;
+}
+
+
+#audit-table.table tr.classification-Internal td { background-color: #d4edda; }
+#audit-table.table tr.classification-Confidential td { background-color: #fff3cd; }
+#audit-table.table tr.classification-Secret td { background-color: #E6E6FA; }
+
+#audit-table.table tr.status-processing td {
+    background-color: #f8d7da; /* Light Red */
+}
+

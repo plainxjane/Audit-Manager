@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<br><br>
+<div class="container-fluid chart">
+    <h1>Audit Logs Analytics</h1><br><br>
+        <div class="row">
+            <div class="col-md-8 col-lg-7 col-xl-6">
+                <h2>Status Pie Chart</h2>
+                <img src="{{ url_for('static', filename='status_pie_chart.png') }}" alt="Status Pie Chart">
+            </div>
+            <div class="col-md-8 col-lg-7 col-xl-6">
+                <h2>Category Bar Chart</h2>
+                <img src="{{ url_for('static', filename='category_bar_chart.png') }}" alt="Category Bar Chart">
+            </div>
+        </div>
+</div>
+
+{% endblock %}

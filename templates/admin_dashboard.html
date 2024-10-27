@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard
+{% endblock title %}
+{% block content %}
+
+<br><br>
+<div class="container-fluid">
+    <div class="row me-auto mb-2 mb-lg-0">
+        <div class="col">
+            <h1>Dashboard | {{ current_user.get_role() }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p><b>FILTER</b></p>
+        </div>
+        <div class="row">
+
+        <div class="col">
+            <!-- Dropdown menu for category filter -->
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Category
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                    <li><a class="dropdown-item" href=" {{ url_for('admin_dashboard', category='Account Activities') }}">Account Activities</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('admin_dashboard', category='Authentication') }}">Authentication</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('admin_dashboard', category='API Usage') }}">API Usage</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('admin_dashboard', category='Resource Availability') }}">Resource Availability</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('admin_dashboard', category='Resource Access') }}">Resource Access</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('admin_dashboard', category='System Configurations') }}">System Configurations</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('admin_dashboard', category='User Activities') }}">User Activities</a></li>
+                </ul>
+            </div>
+        </div>
+        </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <!-- Audit Logs Table -->
+            <table class="table" id="audit-table">
+                <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Classification Level</th>
+                    <th>Category</th>
+                    <th>Role</th>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Event</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for log in logs %}
+                {% if log['status'] == 'Clear' %}
+                <tr class="classification-{{ log['classification'] }}">
+                    {% elif log['status'] == 'Processing' %}
+                <tr class="status-processing">
+                    {% endif %}
+                    <td>{{log['timestamp'] }}</td>
+                    <td>{{ log['classification'] }}</td>
+                    <td>{{ log['category'] }}</td>
+                    <td>{{ log['role'] }}</td>
+                    <td>{{ log['user'] }}</td>
+                    <td>{{ log['action'] }}</td>
+                    <td>{{ log['event'] }}</td>
+                    <td>
+                        {% if log['status'] == 'Clear' %}
+                        <i class="fa-solid fa-circle-check fa-lg status-icon" style="color: #000000;"
+                           data-toggle="popover"
+                           data-placement="right" title="Clear" data-bs-content="This log is clear!"></i>
+                        {% else %}
+                        <i class="fa-solid fa-circle-exclamation fa-lg status-icon" style="color: #000000;"
+                           data-toggle="popover" data-placement="right" title="Processing" data-bs-html="true"
+                           data-bs-content="Click <a href='/resolve/{{ log['audit_log_ID'] }}'>here</a> to resolve!"></i>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
